@@ -75,10 +75,11 @@
               requirements:
             </p>
           </div>
+          <form action="/register" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="First Name" />
-            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Middle Name" />
-            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Last Name" />
+            <input type="text" name="firstname" class="form-control form-control-lg bg-light fs-6" placeholder="First Name" />
+            <input type="text" name="middlename" class="form-control form-control-lg bg-light fs-6" placeholder="Middle Name" />
+            <input type="text" name="lastname" class="form-control form-control-lg bg-light fs-6" placeholder="Last Name" />
             <select id="suffix" class="form-control form-control-lg bg-light fs-6">
               <option value="">- suffix -</option>
               <option value="jr">Jr</option>
@@ -114,17 +115,18 @@
           </div>
           <div class="input-group mb-3">
             <div class="input-group-text">@</div>
-            <input type="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" />
+            <input type="email" name="emailaddress" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" />
           </div>
           <div class="input-group mb-3">
             <div class="input-group-text bi bi-key-fill"></div>
-            <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" />
+            <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" />
           </div>
           <div class="input-group mb-3">
             <button class="btn btn-lg w-100 fs-6" style="background-color: #030067; color: #ececec;">
               Sign Up
             </button>
           </div>
+          </form>
           <div class="input-group mb-3">
             <button class="btn btn-lg w-100 fs-6" onclick="location.href='/login';"
               style="background-color: #030067; color: #ececec;">
