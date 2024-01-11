@@ -1,10 +1,6 @@
-// app.js
-
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
-const helmet = require("helmet");
 const MongoDBSession = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -16,14 +12,19 @@ mongoose.connect(process.env.DB_URI, {
 });
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
-const errorRoutes = require("./routes/errorRoutes");
-const authRoutes = require("./routes/authRoutes"); // Import the new authRoutes file
+const UserModel = require("./models/Users");
+const isAuth = (req, res, next) => {
+  if (req.session.isAuth) {
+    return next();
+  } else {
+    res.redirect("/login");
+  }
+};
 
 app.set("view engine", "ejs");
 app.use(express.json());
-app.use(helmet());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
@@ -36,11 +37,74 @@ app.use(
       uri: process.env.DB_URI,
       collection: "mySessions",
     }),
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    },
   })
 );
 
-app.use("/", errorRoutes);
-app.use("/", authRoutes); // Use the authRoutes for authentication-related routes
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) throw err;
+    return res.redirect("/login");
+  });
+});
+
+app.get("/dashboard", isAuth, (req, res) => {
+  res.render("dashboard");
+});
+
+app.get("/404", (req, res) => {
+  res.status(404).send("404 Page Not Found.");
+});
+
+app.get("/login", (req, res) => {
+  res.render("login",);
+});
+
+app.post("/login", async (req, res) => {
+  const { emailaddress, password } = req.body;
+
+  const user = await UserModel.findOne({ emailaddress });
+  const errorMessage = "Invalid email or password";
+  if (!user) {
+    return res.render("login", { errorMessage: errorMessage || "" });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(400).send("Invalid email or password. 2");
+  }
+
+  req.session.isAuth = true;
+  res.redirect("/dashboard");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+app.post("/register", async (req, res) => {
+  const { firstname, middlename, lastname, emailaddress, password } = req.body;
+
+  let user = await UserModel.findOne({ emailaddress });
+  if (user) {
+    return res.status(400).send("Email address already exists.");
+  }
+
+  const hashPassword = await bcrypt.hash(password, 10);
+  user = new UserModel({
+    firstname,
+    middlename,
+    lastname,
+    emailaddress,
+    password: hashPassword,
+  });
+
+  await user.save();
+
+  res.redirect("/login");
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
