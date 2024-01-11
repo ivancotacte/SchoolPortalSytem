@@ -20,7 +20,7 @@
   }
 
   .box-area {
-    width: 930px;
+    width: 1000px;
     margin: 40px 40px 40px 40px;
   }
 
@@ -77,50 +77,82 @@
           </div>
           <form action="/register" method="POST">
           <div class="input-group mb-3">
-            <input type="text" name="firstname" class="form-control form-control-lg bg-light fs-6" placeholder="First Name" />
-            <input type="text" name="middlename" class="form-control form-control-lg bg-light fs-6" placeholder="Middle Name" />
-            <input type="text" name="lastname" class="form-control form-control-lg bg-light fs-6" placeholder="Last Name" />
-            <select id="suffix" class="form-control form-control-lg bg-light fs-6">
-              <option value="">- suffix -</option>
+            <input type="text" name="firstName" class="form-control bg-light fs-6" placeholder="First Name" />
+            <input type="text" name="middleName" class="form-control bg-light fs-6" placeholder="Middle Name" />
+            <input type="text" name="lastName" class="form-control bg-light fs-6" placeholder="Last Name" />
+<select name="suffix" id="suffix" class="form-control bg-light fs-6">
+              <option value="">Suffix</option>
               <option value="jr">Jr</option>
               <option value="sr">Sr</option>
               <option value="II">II</option>
               <option value="III">III</option>
               <option value="IV">IV</option>
-            </select>
-          </div>
-          <div class="input-group mb-3 col-md-4">
-            <input type="number" class="form-control form-control-lg bg-light fs-6" placeholder="Month" />
-            <input type="number" class="form-control form-control-lg bg-light fs-6" placeholder="Day" />
-            <input type="number" class="form-control form-control-lg bg-light fs-6" placeholder="Year" />
+</select>
           </div>
           <div class="input-group mb-3">
-            <input type="number" class="form-control form-control-lg bg-light fs-6" placeholder="Contact Number" />
+            <input type="number" name="contactNum" class="form-control bg-light fs-6" placeholder="Contact Number" />
           </div>
           <div class="input-group mb-3">
-            <select id="campus" class="form-control form-control-lg bg-light fs-6">
+            <select id="campus" name="campus" class="form-control bg-light fs-6">
               <option value="cainta">Cainta (Main)</option>
               <option value="sanmateo">San Mateo</option>
               <option value="antipolo">Antipolo</option>
             </select>
-            <select id="semester" class="form-control form-control-lg bg-light fs-6">
-              <option value="">- sem -</option>
+            <select id="semester" name="semester" class="form-control bg-light fs-6">
+              <option value="">Semester</option>
               <option value="1styear">1st Year</option>
               <option value="2ndyear">2nd Year</option>
             </select>
-            <select id="schoolyear" class="form-control form-control-lg bg-light fs-6">
+            <select id="schoolyear" name="schoolyear" class="form-control bg-light fs-6">
               <option value="">- sy -</option>
               <option value="2024-2025">2024-2025</option>
             </select>
           </div>
           <div class="input-group mb-3">
             <div class="input-group-text">@</div>
-            <input type="email" name="emailaddress" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" />
+            <input type="email" name="emailAddress" class="form-control bg-light fs-6" placeholder="Email address" />
           </div>
           <div class="input-group mb-3">
             <div class="input-group-text bi bi-key-fill"></div>
-            <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" />
+            <input type="password" name="password" class="form-control bg-light fs-6" placeholder="Password" />
           </div>
+<% if (errors && errors.firstName) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.firstName.msg %>
+  </div>
+<% } else if (errors && errors.middleName) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.middleName.msg %>
+  </div>
+<% } else if (errors && errors.lastName) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.lastName.msg %>
+  </div>
+<% } else if (errors && errors.contactNum) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.contactNum.msg %>
+  </div>
+<% } else if (errors && errors.semester) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.semester.msg %>
+  </div>
+<% } else if (errors && errors.schoolyear) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.schoolyear.msg %>
+  </div>
+<% } else if (errors && errors.email) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.email.msg %>
+  </div>
+<% } else if (errors && errors.password) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors.password.msg %>
+  </div>
+<% } else if (errors) { %>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" style="font-size:13px; transition: all 2s ease-out;">
+    <%= errors %>
+  </div>
+<% } %>
           <div class="input-group mb-3">
             <button class="btn btn-lg w-100 fs-6" style="background-color: #030067; color: #ececec;">
               Sign Up
