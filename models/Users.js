@@ -7,6 +7,21 @@ const UserSchema = new Schema({
     required: true,
     auto: true,
   },
+  studentNum: {
+    type: String,
+    required: true,
+    unique: true,
+    default: () => {
+      const school = "ICCT";
+      const randomDigits = Math.floor(1000000000 + Math.random() * 9000000000);
+      return `${school}${randomDigits}`;
+    },
+  },
+  role: {
+    type: String,
+    enum: ["admin", "student"],
+    default: "student",
+  },
   firstName: {
     type: String,
     required: true,
